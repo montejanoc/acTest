@@ -34,4 +34,11 @@ public class LogOnPanel extends Form{
 		this.add(btnLogOn);
 		
 	}	
+	
+	public void clean() {
+		tfUserName.setText("");
+		tfPassWord.setText("");
+		this.repaint();
+		this.revalidate();
+	}
 }

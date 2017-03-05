@@ -31,19 +31,28 @@ public class MobileController {
 		
 		this.mainMenuController = new MainMenuController(this);
 		
+		this.chatPanelController = new ChatPanelController(this);
+		
 	}
 	
+	public ChatPanelController getChatPanelController() {return chatPanelController;}
+	public LogOnController getLogOnController() {return logOnController;}
+	public MainMenuController getMainMenuController() {return mainMenuController;}
 	
 	public void logOn(String userName, String passWord) {
 		try {
 			currentUser = appServer.logOn(userName, passWord);
-			mainMenuController.showMainMenu(getChatIdsAndNamesForLoggedOnProfile());
+			mainMenuController.showMenu(); 
 			
 		} catch (LogOnException e) {
 			Dialog.show("LogOn Exception", e.getMessage(), "Ok", null);
 		}
 	}
 	
+	public void logOut() {
+		this.currentUser = null;
+		logOnController.showLogOnPanel();
+	}
 	public ChatGroup getChatGroup(long chatId) {
 		return appServer.getChatGroup(chatId);
 	}
@@ -53,6 +62,7 @@ public class MobileController {
 	}
 	
 	public Profile getCurrentUser() {return currentUser;}
+	
 	
 	public void startGui() {
 		logOnController.showLogOnPanel();

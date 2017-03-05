@@ -17,6 +17,9 @@ import objects.Profile;
 public class MainMenuController {
 
 	private MobileController mobileController;
+	
+	private boolean initialized;
+	
 	private MainMenu mainMenu;
 	private Profile loggedOn;
 
@@ -26,20 +29,34 @@ public class MainMenuController {
 		this.mobileController = mobileController;
 		this.chatIdAndNameList = new ArrayList<>();
 		this.mainMenu = new MainMenu(this);
+		initialized = false;
 	}
 
 
-	public void showMainMenu(List<Pair<Long, String>> chatsToShow) {
-		this.loggedOn = mobileController.getCurrentUser();
-		this.chatIdAndNameList = chatsToShow;
+	public void showMenu() {
+		if (!initialized) {
+			initialized = true;
+			
+			this.loggedOn = mobileController.getCurrentUser();
+			this.chatIdAndNameList = mobileController.getChatIdsAndNamesForLoggedOnProfile();
 
-		mainMenu.show(chatsToShow);
+			mainMenu.show(chatIdAndNameList);
+		}
+		
+		else {
+			mainMenu.showBack();
+		}
 	}
+
 
 	public List<Pair<Long, String>> getChatIdAndNameList() {return chatIdAndNameList;}
 
 	public ChatGroup getChatGroupForId(long chatId) {return mobileController.getChatGroup(chatId);}
 
+	public void showChat(Long chatId) {
+		mobileController.getChatPanelController().showChat(mobileController.getChatGroup(chatId));
+	}
+	
 	public void applyMainMenuCommands(Form mainMenu) {
 
 		Command settings = new Command("Setting") {
@@ -52,15 +69,15 @@ public class MainMenuController {
 				new ProfileEditorPanel(mobileController.getCurrentUser());
 			}		
 		};
-		Command back = new Command("Back") {
-			public void actionPerformed(ActionEvent ev) {
-				System.out.println("Back");
-			}	
-		};
 
 		mainMenu.addCommand(settings);
 		mainMenu.addCommand(editProfile);
-		mainMenu.setBackCommand(back);
+		mainMenu.addCommand(new Command("Log Out") {
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				mobileController.logOut();
+			}
+		});
 
 	}
 

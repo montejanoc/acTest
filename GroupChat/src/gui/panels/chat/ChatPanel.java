@@ -17,23 +17,27 @@ public class ChatPanel extends Form {
 	public ChatPanel(ChatPanelController controller) {
 		this.controller = controller;
 		
-		setTitle(controller.getChatGroup().getChatName());
-	
-		this.messageForm = new Form();
-		this.keyboard = new ChatPanelKeyboard();
-
+		messageForm = new Form();
 		messageForm.setLayout(new GridLayout(1));
+		keyboard = new ChatPanelKeyboard();
 
-		for (ChatMessage chatMessage : controller.getChatGroup().getChatMessages()) {
-			messageForm.add(new ChatBubble(chatMessage));
-		}
-	
-		
 		this.setLayout(new BorderLayout());
 		
 		this.add(BorderLayout.CENTER, messageForm);
 		this.add(BorderLayout.SOUTH, keyboard);
 		
+		controller.addChatPanelCommands(this);
+	}
+	
+	@Override
+	public void show() {
+		setTitle(controller.getChatGroup().getChatName());
+		
+		for (ChatMessage chatMessage : controller.getChatGroup().getChatMessages()) {
+			messageForm.add(new ChatBubble(chatMessage));
+		}
+		
+		super.show();
 	}
 	
 	
