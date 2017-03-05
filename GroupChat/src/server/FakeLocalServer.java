@@ -82,7 +82,7 @@ public class FakeLocalServer implements AppServer {
 			}
 			fakeGroup.setProfileIdsInThisGroup(idsToAdd);
 
-			int nMessage = new Random().nextInt(1) + 1;
+			int nMessage = new Random().nextInt(1) + 7;
 			for (int i = 0; i < nMessage; i++) {
 				fakeGroup.addMessage(new ChatMessage(possibleUsers.get(
 						new Random().nextInt(possibleUsers.size()))

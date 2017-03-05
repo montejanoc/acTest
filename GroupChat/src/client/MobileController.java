@@ -1,6 +1,7 @@
 package client;
 
 import java.util.List;
+
 import java18.Pair;
 
 import com.codename1.ui.Dialog;
@@ -12,6 +13,7 @@ import server.AppServer;
 import gui.panels.chat.ChatPanelController;
 import gui.panels.logon.LogOnController;
 import gui.panels.mainmenu.MainMenuController;
+import gui.panels.profileeditor.ProfileEditorController;
 
 
 public class MobileController {
@@ -23,6 +25,7 @@ public class MobileController {
 	private LogOnController logOnController;
 	private MainMenuController mainMenuController;
 	private ChatPanelController chatPanelController;
+	private ProfileEditorController editorController;
 	
 	public MobileController(AppServer appServer) {
 		this.appServer = appServer;
@@ -32,6 +35,8 @@ public class MobileController {
 		this.mainMenuController = new MainMenuController(this);
 		
 		this.chatPanelController = new ChatPanelController(this);
+		
+		this.editorController = new ProfileEditorController(this);
 		
 	}
 	
@@ -53,6 +58,8 @@ public class MobileController {
 		this.currentUser = null;
 		logOnController.showLogOnPanel();
 	}
+	
+	
 	public ChatGroup getChatGroup(long chatId) {
 		return appServer.getChatGroup(chatId);
 	}
@@ -61,7 +68,11 @@ public class MobileController {
 		return appServer.getChatGroupsForUser(currentUser.getProfileId());
 	}
 	
+	
 	public Profile getCurrentUser() {return currentUser;}
+	public void editCurrentProfile() {
+		editorController.showEditor(currentUser);
+	}
 	
 	
 	public void startGui() {

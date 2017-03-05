@@ -66,7 +66,7 @@ public class MainMenuController {
 		};
 		Command editProfile = new Command("Edit Profile") {
 			public void actionPerformed(ActionEvent ev) {
-				new ProfileEditorPanel(mobileController.getCurrentUser());
+				mobileController.editCurrentProfile();
 			}		
 		};
 

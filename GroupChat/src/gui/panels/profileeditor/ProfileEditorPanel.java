@@ -11,6 +11,8 @@ import objects.Profile;
 
 public class ProfileEditorPanel extends Form {
 
+	private ProfileEditorController controller;
+	
 	private Profile profileToEdit;
 	private Button btnUpdate;
 	private Form centerForm;
@@ -19,13 +21,14 @@ public class ProfileEditorPanel extends Form {
 	private TextField bio;
 	private TextField realname;
 
-	public ProfileEditorPanel(Profile profileToEdit) {
+	public ProfileEditorPanel(ProfileEditorController controller) {
+		this.controller = controller;
+		this.profileToEdit = controller.getProfileEditing();
+		
 		username = new TextField(profileToEdit.getUserName());
 		password = new TextField(profileToEdit.getPassWord());
 		bio = new TextField(profileToEdit.getProfileBio());
 		realname = new TextField(profileToEdit.getHumanName());
-
-		this.profileToEdit = profileToEdit;
 
 		setLayout(new BorderLayout());
 
@@ -43,7 +46,7 @@ public class ProfileEditorPanel extends Form {
 		initBtnUpdate();
 		this.add(BorderLayout.SOUTH, btnUpdate);
 
-		show();
+		controller.addProfileEditorCommands(this);
 	}
 	
 	public void initBtnUpdate(){
